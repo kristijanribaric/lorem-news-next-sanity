@@ -10,7 +10,7 @@ const Category: NextPage<{
   initialArticles: Article[];
 }> = ({  initialArticles }) => {
   const router = useRouter();
-  if (initialArticles.length === 0) {
+  if (true) {
     return (
       <>
         {/* <div className="flex align-items-center mb-4">
