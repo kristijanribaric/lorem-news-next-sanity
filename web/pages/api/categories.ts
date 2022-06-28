@@ -1,5 +1,6 @@
+import groq from "groq";
 import { NextApiHandler } from "next";
-import prisma from "../../lib/prismaClient";
+import client from "../../lib/client";
 
 const handler: NextApiHandler = async (req, res) => {
   if (!(req.method === "GET")) {
@@ -9,8 +10,10 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const foodType = await prisma.category.findMany();
-    res.status(200).json(foodType);
+    const query = groq`*[_type == "category"]{title}`;
+
+    const categories = await client.fetch(query);
+    res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({ message: "Connecting to the database failed!" });
     return;
