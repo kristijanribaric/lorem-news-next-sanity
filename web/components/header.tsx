@@ -1,12 +1,10 @@
 import { Button } from "primereact/button";
-import { SyntheticEvent, useRef } from "react";
+import { useRef } from "react";
 import { Menu } from "primereact/menu";
 import { useRouter } from "next/router";
-import { Avatar } from "primereact/avatar";
 import Link from "next/link";
 import { Sidebar } from "primereact/sidebar";
 import { useState } from "react";
-import { Skeleton } from "primereact/skeleton";
 
 const Header: React.FC = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -32,7 +30,7 @@ const Header: React.FC = () => {
       </Sidebar>
       <Button
         icon="pi pi-bars"
-        className="p-button-rounded   p-button-text p-button-secondary md:hidden"
+        className="p-button-rounded p-button-text p-button-secondary md:hidden"
         aria-label="Menu"
         onClick={() => setIsSidebarVisible(true)}
       />
@@ -57,7 +55,12 @@ const Header: React.FC = () => {
           Lorem News
         </a>
       </Link>
-      
+      <Button
+        icon="pi pi-search"
+        className="p-button-rounded p-button-text p-button-secondary"
+        aria-label="Menu"
+        onClick={() => setIsSidebarVisible(true)}
+      />
 
       {/* <Button
         icon={icon}

@@ -39,7 +39,7 @@ const PostDetails: React.FC<{ postData: Article }> = ({
   return (
     <div className="fadein animation-duration-500 animation-ease-in-out mt-4">
       <h3 className="uppercase text-primary m-0 mb-2 text-sm md:text-2xl">
-        {postData.category}
+      {postData.categories.map((category, index) => index === 0 ? `${category} `: `| ${category} `)}
       </h3>
       <div className="flex align-items-center mb-2 md:mb-6 md:mt-4">
         <Button

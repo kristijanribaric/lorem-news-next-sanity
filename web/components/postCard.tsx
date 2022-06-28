@@ -35,7 +35,7 @@ const PostCard: React.FC<{ postData: Article}> = ({
       <div>
         <div className="flex align-items-center">
           <h3 className="uppercase text-primary text-sm md:text-base font-normal mr-2">
-            {postData.category}
+            {postData.categories.map((category, index) => index === 0 ? `${category} `: `| ${category} `)}
           </h3>
         </div>
         <Link href={`/article/${postData.id}`} passHref>

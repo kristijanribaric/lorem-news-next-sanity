@@ -8,7 +8,7 @@ export interface Article {
   title: string;
   mainImage: RecievedImage;
   body?: any[];
-  category: string[];
+  categories: string[];
   authorImage: RecievedImage;
   authorName: string;
   publishedAt: string;

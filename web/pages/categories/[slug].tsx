@@ -74,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  query = groq`*[_type == "post" && *[_type=="category" && slug.current==$slug][0]._id in categories[]._ref] {
+  query = groq`*[_type == "post" && publishedAt < now() && *[_type=="category" && slug.current==$slug][0]._id in categories[]._ref] {
     "id": slug.current,
     title,
     mainImage,
@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     "authorName": author->name,
     "categories": categories[]->title,
     "authorImage": author->image,
-  }`;
+  } | order(publishedAt desc)`;
 
   const initialPosts = await client.fetch(query, { slug });
 
