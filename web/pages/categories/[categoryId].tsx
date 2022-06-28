@@ -1,20 +1,19 @@
 import type { NextPage } from "next";
 import ArticleCard from "../../components/articleCard";
-import { Article, Category } from "../../models";
+import { Article } from "../../models";
 import { GetServerSideProps } from "next";
 import { Button } from "primereact/button";
 import { useRouter } from "next/router";
 import HeaderMeta from "../../components/headerMeta";
 
 const Category: NextPage<{
-  category: Category;
   initialArticles: Article[];
-}> = ({ category, initialArticles }) => {
+}> = ({  initialArticles }) => {
   const router = useRouter();
   if (initialArticles.length === 0) {
     return (
       <>
-        <div className="flex align-items-center mb-4">
+        {/* <div className="flex align-items-center mb-4">
           <Button
             className="p-button-text mr-2"
             icon="pi pi-chevron-left"
@@ -22,14 +21,14 @@ const Category: NextPage<{
           />
           <h1>{category.name}</h1>
         </div>
-        <p>Found no Articles.</p>
+        <p>Found no Articles.</p> */}
       </>
     );
   }
 
   return (
     <>
-      <HeaderMeta
+      {/* <HeaderMeta
         title={`${category.name} | Lorem News`}
         description={`Browse all Articles in category ${category.name}`}
       />
@@ -43,7 +42,7 @@ const Category: NextPage<{
       </div>
       {initialArticles.map((article) => (
         <ArticleCard key={article.id} articleData={article} />
-      ))}
+      ))} */}
     </>
   );
 };
