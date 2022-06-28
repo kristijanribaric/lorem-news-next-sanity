@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import type { GetServerSideProps } from "next";
-import ArticleCard from "../components/articleCard";
+import PostCard from "../components/postCard";
 import { Article } from "../models";
 import HeaderMeta from "../components/headerMeta";
 import client from "../lib/client";
@@ -16,7 +16,7 @@ const Home: NextPage<{ initialPosts: Article[] }> = ({ initialPosts }) => {
       />
       <h1>Latest</h1>
       {initialPosts.map((post) => (
-        <ArticleCard key={post.id} articleData={post} />
+        <PostCard key={post.id} postData={post} />
       ))}
     </>
   );

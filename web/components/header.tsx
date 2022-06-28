@@ -17,7 +17,7 @@ const Header: React.FC = () => {
 
   
   return (
-    <div className="h-6 md:px-6 fixed top-0 left-0  w-full m-0 py-2 flex justify-content-between align-items-center border-bottom-1 border-100 surface-ground z-5">
+    <div className="h-3rem md:px-6 fixed top-0 left-0  w-full m-0 py-2 flex justify-content-between align-items-center border-bottom-1 border-100 surface-ground z-5">
       <Sidebar
         visible={isSidebarVisible}
         onHide={() => setIsSidebarVisible(false)}

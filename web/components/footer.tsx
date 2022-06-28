@@ -1,8 +1,8 @@
 
 const Footer: React.FC = () => {
   return (
-    <div className="h-6 bg-red-500 w-full m-0 py-2 flex justify-content-around">
-      <h2>This is a footer</h2>
+    <div className="surface-ground border-top-1 border-100  w-full m-0 py-3 flex justify-content-around">
+      <a>Lorem News | Your daily source of news</a>
     </div>
   );
 };

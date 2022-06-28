@@ -1,11 +1,11 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import ArticleDetails from "../../components/articleDetails";
 import { Article } from "../../models";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { useRouter } from "next/router";
 import HeaderMeta from "../../components/headerMeta";
 import groq from "groq";
 import client from "../../lib/client";
+import PostDetails from "../../components/postDetails";
 
 const Article: NextPage<{ initialPost: Article }> = ({ initialPost }) => {
   const router = useRouter();
@@ -24,7 +24,7 @@ const Article: NextPage<{ initialPost: Article }> = ({ initialPost }) => {
         title={`${initialPost.title} | Lorem News`}
         description={initialPost.title}
       />
-      <ArticleDetails articleData={initialPost} />
+      <PostDetails postData={initialPost} />
     </>
   );
 };
