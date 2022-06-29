@@ -17,7 +17,7 @@ export default async function handler(
   }
 
   if (!secret || !isValidRequest(req, secret)) {
-    res.status(401).json({ message: "Invalid signature" });
+    res.status(401).json({ message: `Invalid signature: ${secret}` });
     return;
   }
 
@@ -26,12 +26,11 @@ export default async function handler(
       body: { type, slug },
     } = req;
 
-    switch (type) {
-      case "post":
-        await res.unstable_revalidate(`/article/${slug}`);
-        return res.json({
-          message: `Revalidated "${type}" with slug "${slug}"`,
-        });
+    if (type === "post") {
+      await res.unstable_revalidate(`/article/${slug}`);
+      return res.json({
+        message: `Revalidated "${type}" with slug "${slug}"`,
+      });
     }
 
     return res.json({ message: "No managed type" });
