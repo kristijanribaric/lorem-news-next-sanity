@@ -2,11 +2,10 @@ import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  success?: boolean;
   message: string;
 };
 
-async function readBody(readable:NextApiRequest) {
+async function readBody(readable: NextApiRequest) {
   const chunks = [];
   for await (const chunk of readable) {
     chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
@@ -15,10 +14,10 @@ async function readBody(readable:NextApiRequest) {
 }
 
 export const config = {
-    api: {
-      bodyParser: false,
-    },
-  };
+  api: {
+    bodyParser: false,
+  },
+};
 
 const secret = process.env.SANITY_WEBHOOK_SECRET;
 
@@ -37,7 +36,7 @@ export default async function handler(
     !secret ||
     !isValidSignature(body, signature, secret)
   ) {
-    res.status(401).json({ success: false, message: "Invalid signature" });
+    res.status(401).json({ message: "Invalid signature" });
     return;
   }
 
@@ -47,7 +46,6 @@ export default async function handler(
     if (type === "post") {
       await res.unstable_revalidate(`/article/${slug}`);
       return res.json({
-        success: true,
         message: `Revalidated "${type}" with slug "${slug}"`,
       });
     }
@@ -57,4 +55,3 @@ export default async function handler(
     return res.status(500).send({ message: "Error revalidating" });
   }
 }
-
