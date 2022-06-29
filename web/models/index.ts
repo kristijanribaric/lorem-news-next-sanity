@@ -4,7 +4,7 @@ export interface RecievedImage {
 }
 
 export interface Article {
-  id: string;
+  slug: string;
   title: string;
   mainImage: RecievedImage;
   body?: any[];

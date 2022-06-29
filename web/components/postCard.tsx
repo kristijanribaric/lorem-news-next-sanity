@@ -20,7 +20,7 @@ const PostCard: React.FC<{ postData: Article}> = ({
   return (
     <div className="flex gap-2 align-items-end fadein animation-duration-500 animation-ease-in-out my-3 md:my-4">
       <Toast ref={toast} />
-      <Link href={`/article/${postData.id}`} passHref>
+      <Link href={`/article/${postData.slug}`} passHref>
         <a className="flex-shrink-0 relative w-6rem h-6rem md:w-8rem md:h-8rem lg:w-10rem lg:h-10rem">
           <Image
             src={urlFor(postData.mainImage).url()}
@@ -38,7 +38,7 @@ const PostCard: React.FC<{ postData: Article}> = ({
             {postData.categories.map((category, index) => index === 0 ? `${category} `: `| ${category} `)}
           </h3>
         </div>
-        <Link href={`/article/${postData.id}`} passHref>
+        <Link href={`/article/${postData.slug}`} passHref>
           <a>
             <h2 className="m-0 text-xl  md:text-4xl lg:text-6xl">
               {postData.title}

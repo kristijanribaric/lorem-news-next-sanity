@@ -13,12 +13,14 @@ const Category: NextPage<{
   first: number;
   rows: number;
   totalPosts: number;
-  initialCategory: { title: string };
+  initialCategory: { slug: string; title: string };
   initialPosts: Article[];
 }> = ({ first, rows, totalPosts, initialCategory, initialPosts }) => {
   const router = useRouter();
   const onPageChange = (e: PaginatorPageState) => {
-    router.replace(`/?first=${e.first}&rows=${e.rows}`);
+    router.replace(
+      `/categories/${initialCategory.slug}/?first=${e.first}&rows=${e.rows}`
+    );
   };
 
   return (
@@ -40,7 +42,7 @@ const Category: NextPage<{
         <div className="mb-6">
           {Array.isArray(initialPosts) && initialPosts.length ? (
             initialPosts.map((post) => (
-              <PostCard key={post.id} postData={post} />
+              <PostCard key={post.slug} postData={post} />
             ))
           ) : (
             <p>Found no Posts.</p>
@@ -89,6 +91,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const rows = parseInt(context.query.rows);
 
   let query = groq`*[_type == "category" && slug.current==$slug][0]{
+    "slug": slug.current,
     title,
   }`;
   const initialCategory = await client.fetch(query, { slug });
@@ -98,28 +101,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  query = groq`*[_type == "post" && publishedAt < now() && *[_type=="category" && slug.current==$slug][0]._id in categories[]._ref] {
-    "id": slug.current,
-    title,
-    mainImage,
-    publishedAt,
-    "authorName": author->name,
-    "categories": categories[]->title,
-    "authorImage": author->image,
-  } | order(publishedAt desc)[$first...$first+$rows]`;
+  query = groq`{
+    "initialPosts": *[_type == "post" && publishedAt < now() && *[_type=="category" && slug.current==$slug][0]._id in categories[]._ref]{
+        "slug": slug.current,
+        title,
+        mainImage,
+        publishedAt,
+        "authorName": author->name,
+        "categories": categories[]->title,
+        "authorImage": author->image
+      } | order(publishedAt desc)[$first...$first+$rows],
+    "totalPosts": count(*[_type == "post" && publishedAt < now() && *[_type=="category" && slug.current==$slug][0]._id in categories[]._ref])
+  }`;
 
-  const initialPosts = await client.fetch(query, { slug, first, rows });
-
-  query = groq`{"total": count(*[_type == "post" && publishedAt < now()])}`;
-  const totalPosts = await client.fetch(query);
-
+  const data = await client.fetch(query, { slug, first, rows });
   return {
     props: {
       first,
       rows,
-      totalPosts: totalPosts.total,
-      initialCategory,
-      initialPosts,
+      totalPosts: data.totalPosts,
+      initialCategory: initialCategory,
+      initialPosts: data.initialPosts,
     },
   };
 };

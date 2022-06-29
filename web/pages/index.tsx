@@ -31,7 +31,7 @@ const Home: NextPage<{
         <h1>Latest</h1>
         <div className="mb-6">
           {initialPosts.map((post) => (
-            <PostCard key={post.id} postData={post} />
+            <PostCard key={post.slug} postData={post} />
           ))}
         </div>
         <Paginator
@@ -65,27 +65,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const first = parseInt(context.query.first);
   const rows = parseInt(context.query.rows);
 
-  let query = groq`*[_type == "post" && publishedAt < now() ]{
-    "id": slug.current,
-    title,
-    mainImage,
-    publishedAt,
-    "authorName": author->name,
-    "categories": categories[]->title,
-    "authorImage": author->image
-  } | order(publishedAt desc)[$first...$first+$rows]`;
+  let query = groq`{
+    "initialPosts": *[_type == "post" && publishedAt < now() ]{
+        "slug": slug.current,
+        title,
+        mainImage,
+        publishedAt,
+        "authorName": author->name,
+        "categories": categories[]->title,
+        "authorImage": author->image
+      } | order(publishedAt desc)[$first...$first+$rows],
+    "totalPosts": count(*[_type == "post" && publishedAt < now()])
+  }`;
 
-  const initialPosts = await client.fetch(query, { first, rows });
-
-  query = groq`{"total": count(*[_type == "post" && publishedAt < now()])}`;
-  const totalPosts = await client.fetch(query);
+  const data = await client.fetch(query, { first, rows });
 
   return {
     props: {
       first,
       rows,
-      totalPosts: totalPosts.total,
-      initialPosts,
+      totalPosts: data.totalPosts,
+      initialPosts: data.initialPosts,
     },
   };
 };
