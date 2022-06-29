@@ -5,68 +5,68 @@ import { Article } from "../models";
 import HeaderMeta from "../components/headerMeta";
 import client from "../lib/client";
 import groq from "groq";
-import { DataScroller, DataScrollerLazyLoadParams } from "primereact/datascroller";
-import { useState, useRef } from "react";
-import { Button } from "primereact/button";
+import { Paginator, PaginatorPageState } from "primereact/paginator";
+import { useRouter } from "next/router";
 
-const Home: NextPage<{ initialPosts: Article[] }> = ({ initialPosts }) => {
-  const [posts, setPosts] = useState<Article[]>(initialPosts);
-  console.log(posts)
-  const ds = useRef<DataScroller>(null);
-  const itemTemplate = (post: Article) => {
-    return <PostCard key={post.id} postData={post} />;
-  };
-  const fetchPosts = async (first:number, rows:number) => {
-    try {
-      const response = await fetch(`/api/fetchPosts/${first}/${rows}`);
+const Home: NextPage<{
+  first: number;
+  rows: number;
+  totalPosts: number;
+  initialPosts: Article[];
+}> = ({ first, rows, totalPosts, initialPosts }) => {
+  const router = useRouter();
 
-      if (!response.ok) {
-        throw new Error();
-      }
-      const data = await response.json();
-      console.log(data)
-      setPosts(prevPosts => [...prevPosts,...data]);
-    } catch (error) {
-      console.log("Error while fetching Categories.",error);
-    }
-  };
+  const onPageChange = (e: PaginatorPageState) => {
+      router.replace(`/?first=${e.first}&rows=${e.rows}`);
+    };
+  
 
-  const loadData = (event: DataScrollerLazyLoadParams) => {
-    console.log(event)
-    //event.first = First row offset
-    //event.rows = Number of rows per page
-    //add more records to the cars array
-    fetchPosts(event.first,event.rows);
-  };
-
-  const footer = <Button  icon="pi pi-plus" label="Load" onClick={() => ds.current?.load()} />;
   return (
     <>
       <HeaderMeta
         title="Latest | Lorem News"
         description={`All latest news from Culture, Politics, Entertainment and Sport at one place.`}
       />
-      <h1>Latest</h1>
-      {/* <DataScroller
-        value={posts}
-        ref={ds}
-        itemTemplate={itemTemplate}
-        rows={3}
-        lazy
-        onLazyLoad={loadData}
-
-      /> */}
-      {initialPosts.map((post) => (
-        <PostCard key={post.id} postData={post} />
-      ))}
+      <div className="m-0 min-h-screen flex flex-column">
+        <h1>Latest</h1>
+        <div className="mb-6">
+          {initialPosts.map((post) => (
+            <PostCard key={post.id} postData={post} />
+          ))}
+        </div>
+        <Paginator
+          className="mt-auto"
+          first={first}
+          rows={rows}
+          totalRecords={totalPosts}
+          onPageChange={onPageChange}
+          rowsPerPageOptions={[5, 10, 15]}
+        ></Paginator>
+      </div>
     </>
   );
 };
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const query = groq`*[_type == "post" && publishedAt < now() ]{
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log(context.query);
+  if (
+    typeof context.query.first !== "string" ||
+    typeof context.query.rows !== "string" ||
+    parseInt(context.query.first) < 0
+  ) {
+    return {
+      redirect: {
+        destination: "/?first=0&rows=5",
+        permanent: false,
+      },
+    };
+  }
+  const first = parseInt(context.query.first);
+  const rows = parseInt(context.query.rows);
+
+  let query = groq`*[_type == "post" && publishedAt < now() ]{
     "id": slug.current,
     title,
     mainImage,
@@ -74,11 +74,18 @@ export const getServerSideProps: GetServerSideProps = async () => {
     "authorName": author->name,
     "categories": categories[]->title,
     "authorImage": author->image
-  } | order(publishedAt desc)`;
+  } | order(publishedAt desc)[$first...$first+$rows]`;
 
-  const initialPosts = await client.fetch(query);
+  const initialPosts = await client.fetch(query, { first, rows });
+
+  query = groq`{"total": count(*[_type == "post" && publishedAt < now()])}`;
+  const totalPosts = await client.fetch(query);
+
   return {
     props: {
+      first,
+      rows,
+      totalPosts: totalPosts.total,
       initialPosts,
     },
   };
