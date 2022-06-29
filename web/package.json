@@ -12,6 +12,7 @@
     "@portabletext/react": "^1.0.6",
     "@sanity/client": "^3.3.2",
     "@sanity/image-url": "^1.0.1",
+    "@sanity/webhook": "^2.0.0",
     "groq": "^2.29.3",
     "moment": "^2.29.3",
     "next": "^12.1.6",

@@ -43,7 +43,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }`;
 
   const initialPost = await client.fetch(query, { slug });
-  if (Object.keys(initialPost).length === 0) {
+  
+  if (!initialPost) {
     return {
       notFound: true,
     };

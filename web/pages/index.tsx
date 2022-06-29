@@ -50,7 +50,6 @@ const Home: NextPage<{
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log(context.query);
   if (
     typeof context.query.first !== "string" ||
     typeof context.query.rows !== "string" ||
