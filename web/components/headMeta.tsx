@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const HeaderMeta: React.FC<{ title: string; description: string }> = ({
+const HeadMeta: React.FC<{ title: string; description: string }> = ({
   title,
   description,
 }) => {
@@ -12,4 +12,4 @@ const HeaderMeta: React.FC<{ title: string; description: string }> = ({
   );
 };
 
-export default HeaderMeta;
+export default HeadMeta;

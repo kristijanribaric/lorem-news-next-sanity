@@ -1,10 +1,6 @@
 import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type Data = {
-  message: string;
-};
-
 async function readBody(readable: NextApiRequest) {
   const chunks = [];
   for await (const chunk of readable) {
@@ -23,7 +19,7 @@ const secret = process.env.SANITY_WEBHOOK_SECRET;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   if (req.method !== "POST") {
     console.error("Must be a POST request");
@@ -44,7 +40,7 @@ export default async function handler(
     const { type, slug } = JSON.parse(body);
 
     if (type === "post") {
-      await res.unstable_revalidate(`/article/${slug}`);
+      await res.revalidate(`/article/${slug}`);
       return res.json({
         message: `Revalidated "${type}" with slug "${slug}"`,
       });

@@ -4,7 +4,7 @@ import { Article } from "../../models";
 import { GetServerSideProps } from "next";
 import { Button } from "primereact/button";
 import { useRouter } from "next/router";
-import HeaderMeta from "../../components/headerMeta";
+import HeadMeta from "../../components/headMeta";
 import groq from "groq";
 import client from "../../lib/client";
 import { Paginator, PaginatorPageState } from "primereact/paginator";
@@ -25,7 +25,7 @@ const Category: NextPage<{
 
   return (
     <>
-      <HeaderMeta
+      <HeadMeta
         title={`${initialCategory.title} | Lorem News`}
         description={`Browse all Posts in category ${initialCategory.title}`}
       />

@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { Article } from "../../models";
-import HeaderMeta from "../../components/headerMeta";
+import HeadMeta from "../../components/headMeta";
 import groq from "groq";
 import client from "../../lib/client";
 import PostDetails from "../../components/postDetails";
@@ -8,7 +8,7 @@ import PostDetails from "../../components/postDetails";
 const Article: NextPage<{ initialPost: Article }> = ({ initialPost }) => {
   return (
     <>
-      <HeaderMeta
+      <HeadMeta
         title={`${initialPost.title} | Lorem News`}
         description={initialPost.title}
       />

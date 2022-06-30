@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import type { GetServerSideProps } from "next";
 import PostCard from "../components/postCard";
 import { Article } from "../models";
-import HeaderMeta from "../components/headerMeta";
+import HeadMeta from "../components/headMeta";
 import client from "../lib/client";
 import groq from "groq";
 import { Paginator, PaginatorPageState } from "primereact/paginator";
@@ -23,7 +23,7 @@ const Home: NextPage<{
 
   return (
     <>
-      <HeaderMeta
+      <HeadMeta
         title="Latest | Lorem News"
         description={`All latest news from Culture, Politics, Entertainment and Sport at one place.`}
       />

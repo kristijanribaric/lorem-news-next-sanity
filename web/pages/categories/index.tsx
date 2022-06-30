@@ -3,7 +3,7 @@ import type { GetServerSideProps } from "next";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { useRouter } from "next/router";
-import HeaderMeta from "../../components/headerMeta";
+import HeadMeta from "../../components/headMeta";
 import groq from "groq";
 import client from "../../lib/client";
 
@@ -13,7 +13,7 @@ const Categories: NextPage<{
   const router = useRouter();
   return (
     <>
-      <HeaderMeta
+      <HeadMeta
         title="Categories | Lorem News"
         description={"All categories on Lorem News"}
       />
