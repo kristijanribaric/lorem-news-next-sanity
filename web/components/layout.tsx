@@ -3,9 +3,9 @@ import Header from "./header";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="m-0 min-h-screen flex flex-column">
+    <div className="min-h-screen flex flex-column">
     <Header/>
-      <main className="w-11 m-auto md:w-8 mt-8 pb-6">{children}</main>
+      <main className="w-11 mt-6 md:w-8 md:mt-8 m-auto">{children}</main>
       <Footer/>
     </div>
   );

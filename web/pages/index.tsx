@@ -17,9 +17,8 @@ const Home: NextPage<{
   const router = useRouter();
 
   const onPageChange = (e: PaginatorPageState) => {
-      router.replace(`/?first=${e.first}&rows=${e.rows}`);
-    };
-  
+    router.replace(`/?first=${e.first}&rows=${e.rows}`);
+  };
 
   return (
     <>
@@ -27,7 +26,7 @@ const Home: NextPage<{
         title="Latest | Lorem News"
         description={`All latest news from Culture, Politics, Entertainment and Sport at one place.`}
       />
-      <div className="m-0 min-h-screen flex flex-column">
+      <div className="min-h-screen flex flex-column">
         <h1>Latest</h1>
         <div className="mb-6">
           {initialPosts.map((post) => (
@@ -35,7 +34,7 @@ const Home: NextPage<{
           ))}
         </div>
         <Paginator
-          className="mt-auto"
+          className="mt-auto mb-4"
           first={first}
           rows={rows}
           totalRecords={totalPosts}
@@ -53,7 +52,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (
     typeof context.query.first !== "string" ||
     typeof context.query.rows !== "string" ||
-    parseInt(context.query.first) < 0
+    parseInt(context.query.first) < 0 ||
+    parseInt(context.query.rows) < 0
   ) {
     return {
       redirect: {

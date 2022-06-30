@@ -49,7 +49,7 @@ const Category: NextPage<{
           )}
         </div>
         <Paginator
-          className="mt-auto"
+          className="mt-auto mb-4"
           first={first}
           rows={rows}
           totalRecords={totalPosts}

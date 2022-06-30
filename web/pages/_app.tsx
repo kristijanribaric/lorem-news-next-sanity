@@ -10,7 +10,7 @@ import Head from "next/head";
 
 PrimeReact.ripple = true;
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
     <>
       <Head>

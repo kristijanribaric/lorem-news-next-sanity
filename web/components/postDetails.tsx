@@ -1,4 +1,4 @@
-import { Article, RecievedImage } from "../models";
+import { Article } from "../models";
 import Image from "next/image";
 import moment from "moment";
 import React from "react";
@@ -7,39 +7,21 @@ import { Button } from "primereact/button";
 import { useRouter } from "next/router";
 import imageUrlBuilder from "@sanity/image-url";
 import client from "../lib/client";
-import {PortableText} from '@portabletext/react'
+import { PortableText } from "@portabletext/react";
 
-const PostDetails: React.FC<{ postData: Article }> = ({
-  postData,
-}) => {
+const PostDetails: React.FC<{ postData: Article }> = ({ postData }) => {
+  const router = useRouter();
+
   const urlFor = (source: any) => {
     return imageUrlBuilder(client).image(source);
   };
 
-  const ptComponents = {
-    types: {
-      image: ({ value }: { value: RecievedImage }) => {
-        if (!value?.asset?._ref) {
-          return null;
-        }
-        return (
-          <Image
-            src={urlFor(postData.mainImage).url()}
-            alt={postData.title}
-            objectFit="cover"
-            layout="fill"
-            className="border-round-xl"
-          />
-        );
-      },
-    },
-  };
-
-  const router = useRouter();
   return (
     <div className="fadein animation-duration-500 animation-ease-in-out mt-4">
       <h3 className="uppercase text-primary m-0 mb-2 text-sm md:text-2xl">
-      {postData.categories.map((category, index) => index === 0 ? `${category} `: `| ${category} `)}
+        {postData.categories.map((category, index) =>
+          index === 0 ? `${category} ` : `| ${category} `
+        )}
       </h3>
       <div className="flex align-items-center mb-2 md:mb-6 md:mt-4">
         <Button
@@ -47,7 +29,7 @@ const PostDetails: React.FC<{ postData: Article }> = ({
           icon="pi pi-chevron-left"
           onClick={() => router.back()}
         />
-        <h2 className="text-6xl m-0">{postData.title}</h2>
+        <h1 className="m-0 text-2xl md:text-5xl">{postData.title}</h1>
       </div>
 
       <div>
@@ -72,13 +54,8 @@ const PostDetails: React.FC<{ postData: Article }> = ({
         <p className="text-400 m-0 font-light">
           Published {moment(postData.publishedAt).fromNow()}
         </p>
-        <div
-          className="mt-4 md:mt-6"
-        >
-          <PortableText
-        value={postData.body}
-        components={ptComponents}
-      />
+        <div className="mt-4 md:mt-6">
+          <PortableText value={postData.body} />
         </div>
       </div>
     </div>

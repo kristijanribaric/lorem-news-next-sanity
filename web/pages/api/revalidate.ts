@@ -22,7 +22,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== "POST") {
-    console.error("Must be a POST request");
     return res.status(401).json({ message: "Must be a POST request" });
   }
   const signature = req.headers[SIGNATURE_HEADER_NAME];

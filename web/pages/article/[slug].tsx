@@ -16,7 +16,6 @@ const Article: NextPage<{ initialPost: Article }> = ({ initialPost }) => {
     </>
   );
 };
-
 export default Article;
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -30,7 +29,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       },
     };
   }
-
   const query = groq`*[_type == "post" && slug.current == $slug][0]{
     "id": slug.current,
     title,
@@ -43,7 +41,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }`;
 
   const initialPost = await client.fetch(query, { slug });
-  
+
   if (!initialPost) {
     return {
       notFound: true,
