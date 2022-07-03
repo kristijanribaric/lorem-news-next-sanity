@@ -7,6 +7,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: Rule => Rule.required().min(10).max(150)
     },
     {
       name: 'slug',
@@ -16,12 +17,14 @@ export default {
         source: 'title',
         maxLength: 96,
       },
+      validation: Rule => Rule.required()
     },
     {
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: {type: 'author'},
+      validation: Rule => Rule.required()
     },
     {
       name: 'mainImage',
@@ -30,12 +33,14 @@ export default {
       options: {
         hotspot: true,
       },
+      validation: Rule => Rule.required()
     },
     {
       name: 'categories',
       title: 'Categories',
       type: 'array',
       of: [{type: 'reference', to: {type: 'category'}}],
+      validation: Rule => Rule.required()
     },
     {
       name: 'publishedAt',
