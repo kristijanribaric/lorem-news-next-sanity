@@ -1,4 +1,4 @@
-import { Article } from "../models";
+import { Post } from "../models";
 import Image from "next/image";
 import moment from "moment";
 import React from "react";
@@ -9,7 +9,7 @@ import imageUrlBuilder from "@sanity/image-url";
 import client from "../lib/client";
 import { PortableText } from "@portabletext/react";
 
-const PostDetails: React.FC<{ postData: Article }> = ({ postData }) => {
+const PostDetails: React.FC<{ postData: Post }> = ({ postData }) => {
   const router = useRouter();
 
   const urlFor = (source: any) => {

@@ -3,7 +3,7 @@ export interface RecievedImage {
   asset: { _type: "reference"; _ref: string };
 }
 
-export interface Article {
+export interface Post {
   slug: string;
   title: string;
   mainImage: RecievedImage;

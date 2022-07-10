@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import PostCard from "../../components/postCard";
-import { Article } from "../../models";
+import { Post } from "../../models";
 import { GetServerSideProps } from "next";
 import { Button } from "primereact/button";
 import { useRouter } from "next/router";
@@ -14,7 +14,7 @@ const Category: NextPage<{
   rows: number;
   totalPosts: number;
   initialCategory: { slug: string; title: string };
-  initialPosts: Article[];
+  initialPosts: Post[];
 }> = ({ first, rows, totalPosts, initialCategory, initialPosts }) => {
   const router = useRouter();
   const onPageChange = (e: PaginatorPageState) => {

@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import type { GetServerSideProps } from "next";
 import PostCard from "../components/postCard";
-import { Article } from "../models";
+import { Post } from "../models";
 import HeadMeta from "../components/headMeta";
 import client from "../lib/client";
 import groq from "groq";
@@ -12,7 +12,7 @@ const Home: NextPage<{
   first: number;
   rows: number;
   totalPosts: number;
-  initialPosts: Article[];
+  initialPosts: Post[];
 }> = ({ first, rows, totalPosts, initialPosts }) => {
   const router = useRouter();
 

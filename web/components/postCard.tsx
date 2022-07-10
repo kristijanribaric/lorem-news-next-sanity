@@ -1,18 +1,18 @@
-import { Article } from "../models";
+import { Post } from "../models";
 import Image from "next/image";
 import moment from "moment";
 import Link from "next/link";
 import imageUrlBuilder from "@sanity/image-url";
 import client from "../lib/client";
 
-const PostCard: React.FC<{ postData: Article }> = ({ postData }) => {
+const PostCard: React.FC<{ postData: Post }> = ({ postData }) => {
   const urlFor = (source: any) => {
     return imageUrlBuilder(client).image(source);
   };
 
   return (
     <div className="flex gap-2 fadein animation-duration-500 animation-ease-in-out my-3 md:my-4">
-      <Link href={`/article/${postData.slug}`} passHref>
+      <Link href={`/post/${postData.slug}`} passHref>
         <a className="flex-shrink-0 relative w-6rem h-6rem md:w-8rem md:h-8rem lg:w-10rem lg:h-10rem">
           <Image
             src={urlFor(postData.mainImage).url()}
@@ -23,7 +23,7 @@ const PostCard: React.FC<{ postData: Article }> = ({ postData }) => {
           />
         </a>
       </Link>
-      <Link href={`/article/${postData.slug}`} passHref>
+      <Link href={`/post/${postData.slug}`} passHref>
         <a>
           <div className="h-6rem md:h-8rem lg:h-10rem flex flex-column justify-content-start">
             <h3 className="uppercase text-primary m-0 text-xs md:text-base font-normal mr-2">
